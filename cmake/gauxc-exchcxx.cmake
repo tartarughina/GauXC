@@ -1,4 +1,4 @@
-find_package( ExchCXX QUIET )
+find_package( ExchCXX QUIET HINTS /home/tartarughina/ExchCXX/build)
 if( NOT ${ExchCXX_FOUND} )
 
     include( gauxc-dep-versions )
