@@ -8,7 +8,7 @@
 cmake_minimum_required( VERSION 3.20 FATAL_ERROR )
 project( gpu_snlink LANGUAGES CXX CUDA )
 
-add_library( snlink_gpu 
+add_library( snlink_gpu
 ${CMAKE_CURRENT_LIST_DIR}/../src/chebyshev_boys_computation.cu
 ${CMAKE_CURRENT_LIST_DIR}/../src/integral_0.cu
 ${CMAKE_CURRENT_LIST_DIR}/../src/integral_0_0.cu
@@ -26,7 +26,7 @@ target_include_directories( snlink_gpu PUBLIC
   ${CMAKE_CURRENT_LIST_DIR}/../src
   ${CMAKE_CURRENT_LIST_DIR}/../../../../../../../include
 )
-target_compile_options( snlink_gpu PRIVATE --expt-relaxed-constexpr ) 
+target_compile_options( snlink_gpu PRIVATE --expt-relaxed-constexpr )
 target_compile_features( snlink_gpu PUBLIC cxx_std_17 )
 set_property(TARGET snlink_gpu PROPERTY CUDA_SEPARABLE_COMPILATION ON)
 
@@ -37,7 +37,7 @@ add_executable( snlink_test test.cpp )
 target_link_libraries( snlink_test PUBLIC snlink_gpu )
 target_link_libraries( snlink_test PUBLIC Libint2::cxx )
 if(NOT GAUXC_LINK_CUDA_STATIC)
-  target_link_libraries( snlink_test PUBLIC CUDA::cudart )
+  target_link_libraries( snlink_test PUBLIC NVHPC::CUDART )
 else()
   target_link_libraries( snlink_test PUBLIC CUDA::cudart_static )
 endif()
