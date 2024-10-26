@@ -12,10 +12,10 @@ if( GAUXC_ENABLE_HDF5 )
     set(GAUXC_HAS_HDF5 TRUE CACHE BOOL "" FORCE)
     message(STATUS "Enabling HDF5 Bindings")
     message(STATUS "HighFive REPO = ${GAUXC_HIGHFIVE_REPOSITORY}")
-    message(STATUS "HighFive REV  = ${GAUXC_HIGHFIVE_REVISION}  ")
+    # message(STATUS "HighFive REV  = ${GAUXC_HIGHFIVE_REVISION}  ")
     FetchContent_Declare( HighFive
       GIT_REPOSITORY ${GAUXC_HIGHFIVE_REPOSITORY}
-      GIT_TAG        ${GAUXC_HIGHFIVE_REVISION}
+      # GIT_TAG        ${GAUXC_HIGHFIVE_REVISION}
     )
 
     set(HIGHFIVE_USE_BOOST OFF CACHE BOOL "" )
