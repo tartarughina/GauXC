@@ -27,8 +27,13 @@ endif()
 include( gauxc-integratorxx )
 include( gauxc-exchcxx      )
 
-get_target_property(CUBLAS_LOCATION NVHPC::CUBLAS LOCATION)
-message(STATUS "CUBLAS Location: ${CUBLAS_LOCATION}")
+if (GAUXC_HAS_CUDA)
+    string(REPLACE "compilers/bin/nvcc" "cmake" NVHPC_CMAKE_DIR ${CMAKE_CUDA_COMPILER})
+    set(CMAKE_PREFIX_PATH ${NVHPC_CMAKE_DIR})
+    message(STATUS "NVHPC CMake Directory: ${NVHPC_CMAKE_DIR}")
+    message(STATUS "CMake Prefix Path set to: ${CMAKE_PREFIX_PATH}")
+    find_package( NVHPC REQUIRED COMPONENTS NCCL CUDA MATH)
+endif()
 
 add_library( gauxc STATIC
   grid.cxx

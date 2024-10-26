@@ -12,11 +12,6 @@ target_sources( gauxc PRIVATE
 if( GAUXC_ENABLE_NCCL )
     target_sources( gauxc PRIVATE nccl_reduction_driver.cxx )
     message( STATUS "NCCL Has Been Enabled" )
-    string(REPLACE "compilers/bin/nvcc" "cmake" NVHPC_CMAKE_DIR ${CMAKE_CUDA_COMPILER})
-    set(CMAKE_PREFIX_PATH ${NVHPC_CMAKE_DIR})
-    message(STATUS "NVHPC CMake Directory: ${NVHPC_CMAKE_DIR}")
-    message(STATUS "CMake Prefix Path set to: ${CMAKE_PREFIX_PATH}")
-    find_package( NVHPC REQUIRED COMPONENTS NCCL CUDA MATH)
     find_library(NCCL_LIBRARY
     NAMES nccl
     HINTS ${NVHPC_NCCL_LIBRARY_DIR})
