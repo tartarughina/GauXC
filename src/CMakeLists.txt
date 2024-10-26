@@ -36,7 +36,7 @@ if (GAUXC_HAS_CUDA)
 endif()
 
 if (GAUXC_HAS_HDF5)
-    find_package(HDF5 REQUIRED COMPONENTS C HINTS "/home/tartarughina/hdf5/build/HDF5-1.17.0-Linux/HDF_Group/HDF5/1.17.0/cmake")
+    find_package(HDF5 REQUIRED HINTS "/home/tartarughina/hdf5/build/HDF5-1.17.0-Linux/HDF_Group/HDF5/1.17.0/cmake")
 message(STATUS "HDF5 Libraries: ${HDF5_LIBRARIES}")
 message(STATUS "HDF5 Include Dirs: ${HDF5_INCLUDE_DIRS}")
 endif()
