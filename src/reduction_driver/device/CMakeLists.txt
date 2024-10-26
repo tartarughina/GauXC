@@ -21,6 +21,6 @@ if( GAUXC_ENABLE_NCCL )
     NAMES nccl
     HINTS ${NVHPC_NCCL_LIBRARY_DIR})
     string(REGEX REPLACE "(.+)(\/lib)$" "\\1/include" NCCL_INCLUDE_DIR ${NVHPC_NCCL_LIBRARY_DIR})
-    target_link_libraries( gauxc PUBLIC NCCL::nccl )
+    target_link_libraries( gauxc PUBLIC NVHPC::NCCL )
     set(GAUXC_HAS_NCCL TRUE CACHE BOOL "GauXC has NCCL" FORCE)
 endif()
