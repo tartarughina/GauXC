@@ -7,7 +7,7 @@
 #
 if( GAUXC_ENABLE_HDF5 )
   include(FetchContent)
-  find_package(HDF5 HINTS "/home/tartarughina/hdf5")
+  find_package(HDF5 HINTS "/home/tartarughina/hdf5/build/HDF5-1.17.0-Linux/HDF_Group/HDF5/1.17.0")
   if(HDF5_FOUND)
     set(GAUXC_HAS_HDF5 TRUE CACHE BOOL "" FORCE)
     message(STATUS "Enabling HDF5 Bindings")
