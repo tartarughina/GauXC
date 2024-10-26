@@ -16,7 +16,7 @@ if( GAUXC_ENABLE_NCCL )
     set(CMAKE_PREFIX_PATH ${NVHPC_CMAKE_DIR})
     message(STATUS "NVHPC CMake Directory: ${NVHPC_CMAKE_DIR}")
     message(STATUS "CMake Prefix Path set to: ${CMAKE_PREFIX_PATH}")
-    find_package( NVHPC REQUIRED COMPONENTS NCCL )
+    find_package( NVHPC REQUIRED COMPONENTS NCCL CUDA MATH)
     find_library(NCCL_LIBRARY
     NAMES nccl
     HINTS ${NVHPC_NCCL_LIBRARY_DIR})
