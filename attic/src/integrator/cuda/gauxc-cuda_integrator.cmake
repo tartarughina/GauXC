@@ -12,7 +12,7 @@ endforeach()
 
 
 
-if( NOT TARGET CUDA::cublas )
+if( NOT TARGET NVHPC::CUBLAS )
     message( STATUS "CUBLAS Not Found, Attempting To Find It" )
     find_package( CUDAToolkit REQUIRED )
 endif()

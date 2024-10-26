@@ -5,7 +5,7 @@
 #
 # See LICENSE.txt for details
 #
-if( NOT TARGET CUDA::cublas )
+if( NOT TARGET NVHPC::CUBLAS )
   find_package( CUDAToolkit REQUIRED )
 endif()
 
@@ -13,7 +13,7 @@ target_compile_features( gauxc PRIVATE cuda_std_14 )
 target_sources( gauxc PRIVATE cuda_backend.cxx )
 
 if(NOT GAUXC_LINK_CUDA_STATIC)
-  target_link_libraries( gauxc PUBLIC CUDA::cudart CUDA::cublas )
+  target_link_libraries( gauxc PUBLIC CUDA::cudart NVHPC::CUBLAS )
 else()
   target_link_libraries( gauxc PUBLIC CUDA::cudart_static CUDA::cublas_static )
 endif()
