@@ -34,7 +34,7 @@ if (GAUXC_HAS_CUDA)
     message(STATUS "CMake Prefix Path set to: ${CMAKE_PREFIX_PATH}")
     find_package( NVHPC REQUIRED COMPONENTS NCCL CUDA MATH)
 endif()
-
+message(STATUS "${GAUXC_HAS_HDF5}")
 if (GAUXC_HAS_HDF5)
     find_package(HDF5 REQUIRED HINTS "/home/tartarughina/hdf5/build/HDF5-1.17.0-Linux/HDF_Group/HDF5/1.17.0/cmake")
 message(STATUS "HDF5 Libraries: ${HDF5_LIBRARIES}")
