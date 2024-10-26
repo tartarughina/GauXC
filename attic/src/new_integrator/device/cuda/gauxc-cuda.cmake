@@ -1,9 +1,9 @@
 if( NOT TARGET CUDA::cublas )
-  find_package( CUDAToolkit REQUIRED )
+    find_package( CUDAToolkit REQUIRED )
 endif()
 include( gauxc-cub )
 
-target_sources( gauxc PRIVATE 
+target_sources( gauxc PRIVATE
   # Common CUDA Utilities
   device/cuda/collocation_device.cu
   device/cuda/xc_cuda_data.cxx
@@ -25,25 +25,25 @@ target_sources( gauxc PRIVATE
 target_compile_features( gauxc PRIVATE cuda_std_14 )
 target_compile_options( gauxc
   PRIVATE
-    $<$<COMPILE_LANGUAGE:CUDA>: -Xcudafe --diag_suppress=partial_override -Xptxas -v > 
+    $<$<COMPILE_LANGUAGE:CUDA>: -Xcudafe --diag_suppress=partial_override -Xptxas -v >
 )
 
 
 if( GAUXC_ENABLE_MAGMA )
 
-  message( STATUS "MAGMA Has Been Enabled" )
-  find_package( MAGMA REQUIRED )
-  target_link_libraries( gauxc PUBLIC MAGMA::magma )
+    message( STATUS "MAGMA Has Been Enabled" )
+    find_package( MAGMA REQUIRED )
+    target_link_libraries( gauxc PUBLIC MAGMA::magma )
 
 else()
 
-  message( STATUS "MAGMA Has Been Explicitly Disabled" )
+    message( STATUS "MAGMA Has Been Explicitly Disabled" )
 
 endif()
 
 if(NOT GAUXC_LINK_CUDA_STATIC)
-  target_link_libraries( gauxc PUBLIC CUDA::cublas )
+    target_link_libraries( gauxc PUBLIC CUDA::cublas )
 else()
-  target_link_libraries( gauxc PUBLIC CUDA::cublas_static )
+    target_link_libraries( gauxc PUBLIC CUDA::cublas_static )
 endif()
 target_link_libraries( gauxc PRIVATE $<BUILD_INTERFACE:gauxc_cub> )

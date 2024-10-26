@@ -5,15 +5,22 @@
 #
 # See LICENSE.txt for details
 #
-target_sources( gauxc PRIVATE 
+target_sources( gauxc PRIVATE
   device_reduction_driver.cxx
 )
 
 if( GAUXC_ENABLE_NCCL )
-  target_sources( gauxc PRIVATE nccl_reduction_driver.cxx )
-  message( STATUS "NCCL Has Been Enabled" )
-  find_package( NCCL REQUIRED )
-  target_link_libraries( gauxc PUBLIC NCCL::nccl )
-  set(GAUXC_HAS_NCCL TRUE CACHE BOOL "GauXC has NCCL" FORCE)
+    target_sources( gauxc PRIVATE nccl_reduction_driver.cxx )
+    message( STATUS "NCCL Has Been Enabled" )
+    string(REPLACE "compilers/bin/nvcc" "cmake" NVHPC_CMAKE_DIR ${CMAKE_CUDA_COMPILER})
+    set(CMAKE_PREFIX_PATH ${NVHPC_CMAKE_DIR})
+    message(STATUS "NVHPC CMake Directory: ${NVHPC_CMAKE_DIR}")
+    message(STATUS "CMake Prefix Path set to: ${CMAKE_PREFIX_PATH}")
+    find_package( NVHPC REQUIRED COMPONENTS NCCL )
+    find_library(NCCL_LIBRARY
+    NAMES nccl
+    HINTS ${NVHPC_NCCL_LIBRARY_DIR})
+    string(REGEX REPLACE "(.+)(\/lib)$" "\\1/include" NCCL_INCLUDE_DIR ${NVHPC_NCCL_LIBRARY_DIR})
+    target_link_libraries( gauxc PUBLIC NCCL::nccl )
+    set(GAUXC_HAS_NCCL TRUE CACHE BOOL "GauXC has NCCL" FORCE)
 endif()
-

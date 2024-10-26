@@ -40,17 +40,17 @@ option( GAUXC_BLAS_PREFER_ILP64 "Prefer ILP64 for host BLAS"  OFF )
 option( GAUXC_LINK_CUDA_STATIC  "Link GauXC with static CUDA libs"  OFF )
 
 include(CMakeDependentOption)
-cmake_dependent_option( GAUXC_ENABLE_MAGMA    
+cmake_dependent_option( GAUXC_ENABLE_MAGMA
   "Enable MAGMA Linear Algebra"           ON
-  "GAUXC_ENABLE_CUDA OR GAUXC_ENABLE_HIP" OFF  
+  "GAUXC_ENABLE_CUDA OR GAUXC_ENABLE_HIP" OFF
 )
-cmake_dependent_option( GAUXC_ENABLE_NCCL 
-  "Enable NCCL Collectives" OFF  
-  "GAUXC_ENABLE_CUDA"       OFF 
+cmake_dependent_option( GAUXC_ENABLE_NCCL
+  "Enable NCCL Collectives" OFF
+  "GAUXC_ENABLE_CUDA"       OFF
 )
-cmake_dependent_option( GAUXC_ENABLE_CUTLASS  
-  "Enable CUTLASS Linear Algebra" OFF  
-  "GAUXC_ENABLE_CUDA"             OFF 
+cmake_dependent_option( GAUXC_ENABLE_CUTLASS
+  "Enable CUTLASS Linear Algebra" OFF
+  "GAUXC_ENABLE_CUDA"             OFF
 )
 
 # Default the feature variables
@@ -66,28 +66,28 @@ set( GAUXC_HAS_NCCL       FALSE CACHE BOOL "" FORCE )
 set( GAUXC_HAS_CUTLASS    FALSE CACHE BOOL "" FORCE )
 set( GAUXC_BLAS_IS_LP64   FALSE CACHE BOOL "" FORCE )
 
-mark_as_advanced( FORCE 
-  GAUXC_HAS_HOST     
-  GAUXC_HAS_CUDA     
-  GAUXC_HAS_HIP      
-  GAUXC_HAS_MPI      
-  GAUXC_HAS_OPENMP   
-  GAUXC_HAS_GAU2GRID 
-  GAUXC_HAS_HDF5     
-  GAUXC_HAS_MAGMA    
-  GAUXC_HAS_NCCL     
-  GAUXC_HAS_CUTLASS  
-  GAUXC_BLAS_IS_LP64 
+mark_as_advanced( FORCE
+  GAUXC_HAS_HOST
+  GAUXC_HAS_CUDA
+  GAUXC_HAS_HIP
+  GAUXC_HAS_MPI
+  GAUXC_HAS_OPENMP
+  GAUXC_HAS_GAU2GRID
+  GAUXC_HAS_HDF5
+  GAUXC_HAS_MAGMA
+  GAUXC_HAS_NCCL
+  GAUXC_HAS_CUTLASS
+  GAUXC_BLAS_IS_LP64
 )
 
 
 if( NOT GAUXC_ENABLE_GAU2GRID )
-  message( FATAL_ERROR "Gau2Grid is currently a required dependency which 
-                        will be made optional in a future release of GauXC [WIP]" ) 
+  message( FATAL_ERROR "Gau2Grid is currently a required dependency which
+                        will be made optional in a future release of GauXC [WIP]" )
 endif()
 
 
-if( GAUXC_ENABLE_HOST ) 
+if( GAUXC_ENABLE_HOST )
   set(GAUXC_HAS_HOST TRUE CACHE BOOL "GauXC has Host Bindings" FORCE)
 endif()
 
