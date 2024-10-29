@@ -35,6 +35,10 @@ endif()
 
 if (GAUXC_ENABLE_HDF5)
     list(APPEND CMAKE_PREFIX_PATH "/home/tartarughina/hdf5/build/HDF5-1.17.0-Linux/HDF_Group/HDF5/1.17.0/cmake")
+    find_package(HDF5 REQUIRED)
+    message(STATUS "HDF5 found: ${HDF5_VERSION}")
+    message(STATUS "HDF5 include: ${HDF5_INCLUDE_DIRS}")
+    message(STATUS "HDF5 lib: ${HDF5_LIBRARIES}")
 endif()
 
 
