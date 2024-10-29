@@ -27,13 +27,13 @@ endif()
 include( gauxc-integratorxx )
 include( gauxc-exchcxx      )
 
-if (GAUXC_HAS_CUDA)
+if (GAUXC_ENABLE_CUDA)
     string(REPLACE "compilers/bin/nvcc" "cmake" NVHPC_CMAKE_DIR ${CMAKE_CUDA_COMPILER})
     list( APPEND CMAKE_PREFIX_PATH ${NVHPC_CMAKE_DIR})
     find_package( NVHPC REQUIRED COMPONENTS NCCL CUDA MATH)
 endif()
 
-if (GAUXC_AS_HDF5)
+if (GAUXC_ENABLE_HDF5)
     list(APPEND CMAKE_PREFIX_PATH "/home/tartarughina/hdf5/build/HDF5-1.17.0-Linux/HDF_Group/HDF5/1.17.0/cmake")
 endif()
 
