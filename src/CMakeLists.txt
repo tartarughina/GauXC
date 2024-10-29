@@ -7,7 +7,7 @@
 #
 
 # Parallelism
-if( GAUXC_ENABLE_OPENMP ) 
+if( GAUXC_ENABLE_OPENMP )
   message( STATUS "GauXC Enabling OpenMP" )
   find_package( OpenMP  REQUIRED )
   set(GAUXC_HAS_OPENMP TRUE CACHE BOOL "GauXC Has OpenMP" FORCE)
@@ -27,16 +27,26 @@ endif()
 include( gauxc-integratorxx )
 include( gauxc-exchcxx      )
 
+if (GAUXC_HAS_CUDA)
+    string(REPLACE "compilers/bin/nvcc" "cmake" NVHPC_CMAKE_DIR ${CMAKE_CUDA_COMPILER})
+    list( APPEND CMAKE_PREFIX_PATH ${NVHPC_CMAKE_DIR})
+    find_package( NVHPC REQUIRED COMPONENTS NCCL CUDA MATH)
+endif()
 
-add_library( gauxc STATIC 
-  grid.cxx 
-  grid_impl.cxx 
+if (GAUXC_AS_HDF5)
+    list(APPEND CMAKE_PREFIX_PATH "/home/tartarughina/hdf5/build/HDF5-1.17.0-Linux/HDF_Group/HDF5/1.17.0/cmake")
+endif()
+
+
+add_library( gauxc STATIC
+  grid.cxx
+  grid_impl.cxx
   grid_factory.cxx
-  molmeta.cxx 
-  molgrid.cxx 
-  molgrid_impl.cxx 
-  molgrid_defaults.cxx 
-  atomic_radii.cxx 
+  molmeta.cxx
+  molgrid.cxx
+  molgrid_impl.cxx
+  molgrid_defaults.cxx
+  atomic_radii.cxx
 )
 
 target_include_directories( gauxc
@@ -74,9 +84,9 @@ if( GAUXC_CXX_HAS_WSHADOW )
   target_compile_options( gauxc PRIVATE $<$<COMPILE_LANGUAGE:CXX>: -Wshadow> )
 endif()
 
-target_link_libraries( gauxc PUBLIC 
-  ExchCXX::ExchCXX 
-  IntegratorXX::IntegratorXX 
+target_link_libraries( gauxc PUBLIC
+  ExchCXX::ExchCXX
+  IntegratorXX::IntegratorXX
 )
 if( TARGET OpenMP::OpenMP_CXX )
   target_link_libraries( gauxc PUBLIC OpenMP::OpenMP_CXX )
@@ -102,17 +112,17 @@ add_library( gauxc::gauxc ALIAS gauxc )
 
 
 if(GAUXC_HAS_HOST)
-  set(GAUXC_CPU_XC_MAX_AM     6) 
+  set(GAUXC_CPU_XC_MAX_AM     6)
   set(GAUXC_CPU_SNLINK_MAX_AM 6)
 endif()
 
 if(GAUXC_HAS_DEVICE)
-  set(GAUXC_GPU_XC_MAX_AM     4) 
+  set(GAUXC_GPU_XC_MAX_AM     4)
   set(GAUXC_GPU_SNLINK_MAX_AM 2)
 endif()
 
 # Generate config file
-configure_file( 
+configure_file(
   ${PROJECT_SOURCE_DIR}/include/gauxc/gauxc_config.hpp.in
   ${PROJECT_BINARY_DIR}/include/gauxc/gauxc_config.hpp
 )
@@ -123,7 +133,7 @@ include( GNUInstallDirs )
 # TARGETS
 
 install( TARGETS gauxc ${GAUXC_EXPORT_DEPENDENCIES}
-  EXPORT gauxc-targets 
+  EXPORT gauxc-targets
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
@@ -131,7 +141,7 @@ install( TARGETS gauxc ${GAUXC_EXPORT_DEPENDENCIES}
 set_target_properties( gauxc PROPERTIES EXPORT_NAME gauxc )
 
 set(export_properties
-  # currently configurable properties 
+  # currently configurable properties
   "GAUXC_HAS_HOST"
   "GAUXC_HAS_DEVICE"
   "GAUXC_HAS_CUDA"
@@ -142,7 +152,7 @@ set(export_properties
   "GAUXC_HAS_MPI"
   "GAUXC_HAS_OPENMP"
   "GAUXC_HAS_HDF5"
- 
+
   # may become configurable in the future
   "GAUXC_CPU_XC_MAX_AM"
   "GAUXC_CPU_SNLINK_MAX_AM"
@@ -162,9 +172,9 @@ set_target_properties(gauxc
     "GAUXC_HAS_MPI"        ${GAUXC_HAS_MPI}
     "GAUXC_HAS_OPENMP"     ${GAUXC_HAS_OPENMP}
     "GAUXC_HAS_HDF5"       ${GAUXC_HAS_HDF5}
-    "GAUXC_CPU_XC_MAX_AM"     ${GAUXC_CPU_XC_MAX_AM}     
+    "GAUXC_CPU_XC_MAX_AM"     ${GAUXC_CPU_XC_MAX_AM}
     "GAUXC_CPU_SNLINK_MAX_AM" ${GAUXC_CPU_SNLINK_MAX_AM}
-    "GAUXC_GPU_XC_MAX_AM"     ${GAUXC_GPU_XC_MAX_AM}     
+    "GAUXC_GPU_XC_MAX_AM"     ${GAUXC_GPU_XC_MAX_AM}
     "GAUXC_GPU_SNLINK_MAX_AM" ${GAUXC_GPU_SNLINK_MAX_AM}
 )
 set_property(TARGET gauxc APPEND PROPERTY EXPORT_PROPERTIES "${export_properties}")
@@ -175,7 +185,7 @@ export(EXPORT gauxc-targets
       FILE "${PROJECT_BINARY_DIR}/gauxc-targets.cmake")
 
 # Install static headers
-install( 
+install(
   DIRECTORY   ${PROJECT_SOURCE_DIR}/include
   DESTINATION .
   FILES_MATCHING PATTERN "*.hpp"
@@ -186,8 +196,8 @@ install(
   FILES       ${PROJECT_BINARY_DIR}/include/gauxc/gauxc_config.hpp
   DESTINATION include/gauxc
 )
-  
-   
+
+
 # Export target to script
 set( INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/gauxc )
 install( EXPORT gauxc-targets
