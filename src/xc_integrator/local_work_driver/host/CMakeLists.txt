@@ -41,5 +41,5 @@ if( GAUXC_ENABLE_GAU2GRID AND TARGET gau2grid::gg )
   target_link_libraries( gauxc PUBLIC gau2grid::gg )
 endif()
 
-#add_subdirectory(rys)
-#add_subdirectory(obara_saika)
+add_subdirectory(rys)
+add_subdirectory(obara_saika)
