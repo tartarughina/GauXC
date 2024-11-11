@@ -10,3 +10,4 @@ integrate_exc_grad = TRUE
 integrate_exx = FALSE
 lb_exec_space = DEVICE
 int_exec_space = DEVICE
+reduction_kernel = NCCL
